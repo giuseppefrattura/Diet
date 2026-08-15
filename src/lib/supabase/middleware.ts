@@ -5,13 +5,14 @@ export async function updateSession(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey || !supabaseUrl.startsWith('http')) {
-    // Demo mode: allow all routes
-    return NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    });
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // If not configured, stay on login
+    if (!request.nextUrl.pathname.startsWith('/login')) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/login';
+      return NextResponse.redirect(url);
+    }
+    return NextResponse.next();
   }
 
   let supabaseResponse = NextResponse.next({
@@ -43,10 +44,19 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isAuthRoute = request.nextUrl.pathname.startsWith('/login');
-  if (!user && !isAuthRoute && process.env.ENFORCE_SUPABASE_AUTH === 'true') {
+  const isAuthRoute = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth');
+
+  // If user is not authenticated and trying to access protected routes -> redirect to /login
+  if (!user && !isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
+  // If user is already authenticated and visits /login -> redirect to /
+  if (user && request.nextUrl.pathname.startsWith('/login')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
     return NextResponse.redirect(url);
   }
 

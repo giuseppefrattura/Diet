@@ -3,8 +3,9 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Refrigerator, CalendarDays, ShoppingBag, UtensilsCrossed, Apple, Sparkles } from 'lucide-react';
+import { LayoutDashboard, Refrigerator, CalendarDays, ShoppingBag, UtensilsCrossed, Apple, Sparkles, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { signOut } from '@/actions/auth';
 
 export const NAV_ITEMS = [
   { href: '/', label: 'Oggi', icon: LayoutDashboard },
@@ -55,7 +56,7 @@ export function Navbar() {
         </nav>
 
         {/* Quick hint box */}
-        <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50">
+        <div className="p-4 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 mb-3">
           <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-semibold text-xs mb-1">
             <Apple className="w-4 h-4" /> Algoritmo FEFO
           </div>
@@ -64,14 +65,16 @@ export function Navbar() {
           </p>
         </div>
 
-        <div className="pt-4 mt-auto border-t border-slate-100 dark:border-slate-800">
-          <Link
-            href="/login"
-            className="flex items-center gap-2 text-xs text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors p-2 rounded-xl"
-          >
-            <Sparkles className="w-4 h-4 text-emerald-500" />
-            <span>Account & Accesso</span>
-          </Link>
+        <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Disconnetti Account</span>
+            </button>
+          </form>
         </div>
       </aside>
 

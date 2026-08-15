@@ -5,14 +5,13 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 
 export async function signInWithEmail(formData: FormData) {
-  const email = formData.get('email') as string;
+  const email = (formData.get('email') as string)?.trim();
   const password = formData.get('password') as string;
 
   const supabase = await createClient();
 
   if (!supabase) {
-    // In demo mode, redirect directly to dashboard
-    redirect('/');
+    return { error: 'Configurazione Supabase mancante nel server.' };
   }
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -25,20 +24,20 @@ export async function signInWithEmail(formData: FormData) {
   }
 
   revalidatePath('/', 'layout');
-  redirect('/');
+  return { success: true };
 }
 
 export async function signUpWithEmail(formData: FormData) {
-  const email = formData.get('email') as string;
+  const email = (formData.get('email') as string)?.trim();
   const password = formData.get('password') as string;
 
   const supabase = await createClient();
 
   if (!supabase) {
-    redirect('/');
+    return { error: 'Configurazione Supabase mancante nel server.' };
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
@@ -47,8 +46,13 @@ export async function signUpWithEmail(formData: FormData) {
     return { error: error.message };
   }
 
+  // Se Supabase richiede conferma email
+  if (data.user && !data.session) {
+    return { success: true, needsConfirmation: true };
+  }
+
   revalidatePath('/', 'layout');
-  redirect('/');
+  return { success: true };
 }
 
 export async function signOut() {
