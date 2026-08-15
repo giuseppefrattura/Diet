@@ -63,6 +63,16 @@ export function Navbar() {
             I lotti in scadenza vengono consumati per primi automaticamente.
           </p>
         </div>
+
+        <div className="pt-4 mt-auto border-t border-slate-100 dark:border-slate-800">
+          <Link
+            href="/login"
+            className="flex items-center gap-2 text-xs text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors p-2 rounded-xl"
+          >
+            <Sparkles className="w-4 h-4 text-emerald-500" />
+            <span>Account & Accesso</span>
+          </Link>
+        </div>
       </aside>
 
       {/* Mobile Bottom Navigation Bar (Fixed, touch-friendly min 48px targets) */}

@@ -410,7 +410,29 @@ export async function getFoodItems(): Promise<FoodItem[]> {
       .select('*')
       .order('name', { ascending: true });
 
-    if (data) return data as FoodItem[];
+    if (data && data.length > 0) {
+      return data as FoodItem[];
+    }
+
+    // Se l'utente non ha ancora alimenti, popoliamo il catalogo iniziale
+    if (data && data.length === 0) {
+      const initialItems = demoStore.foodItems.map((item) => ({
+        user_id: session.id,
+        name: item.name,
+        unit: item.unit,
+        perishable: item.perishable,
+        category: item.category,
+      }));
+
+      await (supabase.from('food_items') as any).insert(initialItems);
+
+      const { data: refreshed } = await supabase
+        .from('food_items')
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (refreshed) return refreshed as FoodItem[];
+    }
   }
 
   return [...demoStore.foodItems].sort((a, b) => a.name.localeCompare(b.name));
