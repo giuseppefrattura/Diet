@@ -47,6 +47,13 @@ Una Progressive Web App (PWA) moderna, mobile-first e full-stack per la gestione
   - Procedura guidata che converte i prodotti acquistati in lotti effettivi di dispensa.
   - Suggerimento intelligente delle scadenze per i prodotti freschi (+3gg, +7gg, +14gg) e pulizia della lista.
 
+### 5. ⏰ Controllo Automatico Notturno Scadenze (Cron alle 01:00)
+- **Vercel Cron (`vercel.json`) & API Route (`/api/cron/check-expirations`)**:
+  - Esegue ogni notte alle ore **01:00 AM** una verifica completa su tutti i lotti registrati.
+  - Individua automaticamente gli alimenti già scaduti e quelli con scadenza imminente entro 3 giorni.
+  - Protetto da token di sicurezza `CRON_SECRET`.
+  - Opzione nativa PostgreSQL disponibile con `pg_cron` in [supabase/cron.sql](supabase/cron.sql).
+
 ---
 
 ## 🛠️ Stack Tecnologico
