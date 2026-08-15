@@ -119,34 +119,51 @@ Diet/
 npm install
 ```
 
-### 3. Configurazione delle Variabili d'Ambiente (Opzionale)
-Copia il file `.env.example` in `.env.local`:
+### 3. Configurazione delle Variabili d'Ambiente
+Copia il file `.env.example` in `.env.local` e inserisci le tue credenziali Supabase:
 ```bash
 cp .env.example .env.local
 ```
 
-> [!NOTE]
-> **Modalità Demo Automatica**: Se non inserisci le credenziali di Supabase, l'applicazione si avvierà automaticamente in **Modalità Demo Locale (In-Memory)** con un set ricco di ingredienti italiani, scorte in dispensa con varie scadenze e piano pasti completo già configurato per testare subito ogni funzione!
-
-Per connettere un database Supabase reale:
+Nel file `.env.local`:
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://tuo-progetto.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=la-tua-chiave-anon
+NEXT_PUBLIC_SUPABASE_ANON_KEY=la-tua-chiave-anon-jwt
 ```
 
-Esegui lo script presente in [supabase/schema.sql](supabase/schema.sql) nell'editor SQL della tua dashboard Supabase per creare le tabelle e le policy di sicurezza RLS.
+Esegui lo script presente in [supabase/schema.sql](supabase/schema.sql) nell'editor SQL della tua dashboard Supabase per creare le tabelle e le policy di sicurezza Row Level Security (RLS).
 
-### 4. Avvio in Sviluppo
+---
+
+### 4. 👤 Creazione Utente Amministratore / Utenti Autorizzati (Supabase)
+
+Per garantire la massima sicurezza e riservatezza dei dati, **la registrazione autonoma dall'app è disabilitata**. Gli account vengono creati direttamente dall'amministratore tramite la dashboard di Supabase:
+
+1. Vai su [supabase.com](https://supabase.com) ed entra nel tuo progetto.
+2. Dal menu laterale a sinistra, clicca su **Authentication** ➡️ **Users**.
+3. Clicca sul pulsante verde in alto a destra **"Add user"** ➡️ **"Create user"**.
+4. Inserisci l'**Email** e la **Password** desiderata (minimo 6 caratteri).
+5. Assicurati che l'opzione **"Auto Confirm User"** sia **attiva** (in questo modo l'utente potrà accedere istantaneamente senza dover verificare l'email).
+6. Clicca su **"Create user"**.
+7. Ora puoi accedere direttamente all'applicazione inserendo l'email e la password create.
+
+> [!TIP]
+> Al primo accesso di un nuovo utente, il sistema popola automaticamente il catalogo alimenti di base con gli ingredienti più comuni della dieta mediterranea.
+
+---
+
+### 5. Avvio in Sviluppo
 ```bash
 npm run dev
 ```
-Apri il browser su [http://localhost:3000](http://localhost:3000).
+Apri il browser su [http://localhost:3000](http://localhost:3000) (o sulla porta indicata nel terminale).
 
-### 5. Build di Produzione
+### 6. Build di Produzione & Deploy su Vercel
 ```bash
 npm run build
 npm run start
 ```
+Per il deploy su **Vercel**, basta collegare il repository GitHub e impostare le variabili d'ambiente `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` nelle impostazioni del progetto.
 
 ---
 
