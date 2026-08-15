@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="dietGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#34d399" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Rect -->
+  <rect width="512" height="512" rx="128" fill="url(#dietGrad)" />
+  
+  <!-- Smart Fridge Outline -->
+  <rect x="128" y="96" width="256" height="320" rx="32" fill="#ffffff" fill-opacity="0.15" stroke="#ffffff" stroke-width="16" stroke-linejoin="round" />
+  <line x1="128" y1="220" x2="384" y2="220" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+  
+  <!-- Fridge Handles -->
+  <line x1="160" y1="150" x2="160" y2="190" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+  <line x1="160" y1="260" x2="160" y2="340" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+  
+  <!-- Smart Pulse / Apple Emblem -->
+  <circle cx="300" cy="300" r="48" fill="url(#badgeGrad)" />
+  <path d="M285 285 Q300 270 315 285 Q325 305 315 320 Q300 330 285 320 Q275 305 285 285 Z" fill="#ffffff" />
+  <path d="M300 272 Q305 260 315 262" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none" />
+</svg>
